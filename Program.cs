@@ -9,6 +9,7 @@
             var q = new QClass();
 
             q.Q011();
+            var p = new Q023Person("Eran",24);
 
         }
     }

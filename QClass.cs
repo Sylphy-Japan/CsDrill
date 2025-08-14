@@ -161,11 +161,77 @@ namespace CsDrill
 
         public void Q017()
         {
-            for (int i = 0; i > 0; i--)
+            //定数PIを3.14で宣言
+            const double PI = 3.14;
+        }
+
+        readonly int id = 100;
+        public void Q018()
+        {
+            //readonlyフィールドidを100で宣言（クラス内）
+            Console.WriteLine(id);
+        }
+
+        public void Q019()
+        {
+            //三項演算子: x==0なら"Zero"、それ以外は"Non-zero"
+            int x = 0;
+            Console.WriteLine(x == 0 ? "Zero" : "Non-zero");
+        }
+
+        public void Q020()
+        {
+            //配列numsの要素数を表示
+            int[] nums = { 1, 2, 3, 4, 5 };
+            Console.WriteLine(nums.Length);
+        }
+
+        public void Q021()
+        {
+            //List<int> numbersの要素数を表示
+            List<int> numbers = new List<int> { 1, 2, 3, 4, 5 };
+            Console.WriteLine(numbers.Count);
+        }
+
+        public void Q022()
+        {
+            //文字列strの長さを表示
+            string str = "Hello, World!";
+            Console.WriteLine(str.Length);
+        }
+
+        public void Q024()
+        {
+            //
+            try
             {
-                Console.WriteLine(i);
+                int x = int.Parse("abc"); // 変換失敗
+            }
+            catch (FormatException ex)
+            {
+                // 修正: 例外メッセージを表示
+                Console.WriteLine($"変換失敗: {ex.Message}");
             }
 
         }
+
+        // 修正: クラス宣言からパラメータリストを削除し、通常のクラス宣言にする
+        class Q023Person
+        {
+            //Personクラスを定義しName(string), Age(int)プロパティを持たせる
+            public string Name { get; set; }
+            public int Age { get; set; }
+
+            // 修正: コンストラクターを1つだけ定義
+            public Q023Person(string name, int age)
+            {
+                this.Name = name;
+                this.Age = age;
+            }
+        }
+
+        //CalculatorクラスにAdd(int,int)を定義（式形式）
+        class Q025Calculator { public int Add(int a, int b) => a + b; }
+
     }
 }
