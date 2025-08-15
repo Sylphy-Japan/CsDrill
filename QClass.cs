@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -228,10 +230,61 @@ namespace CsDrill
                 this.Name = name;
                 this.Age = age;
             }
+
+            public void Q026()
+            {
+                //CalculatorのAdd(3,5)を呼び出して表示
+                var c = new Q025Calculator();
+                Console.WriteLine(c.Add(3, 5));
+            }
         }
 
         //CalculatorクラスにAdd(int,int)を定義（式形式）
         class Q025Calculator { public int Add(int a, int b) => a + b; }
 
+        class Q027Animal
+        {
+            //AnimalクラスにSpeak()で"Animal sound"を表示
+            public virtual void Speak()
+            {
+                //virtualとは？
+                //virtualキーワードは、メソッドが派生クラスでオーバーライド可能であることを示します。
+                Console.WriteLine("Animal sound");
+            }
+        }
+
+        class Q028Dog : Q027Animal
+        {
+            //DogクラスはAnimalを継承し、Speak()をオーバーライドして"Woof"を表示
+            public override void Speak()
+            {
+                //overrideとは？
+                //overrideキーワードは、基底クラスのvirtualメソッドを派生クラスで再定義するために使用されます。
+                Console.WriteLine("Woof");
+            }
+        }
+        //抽象クラスShapeに抽象メソッドGetArea()
+        abstract class Q029Shape { public abstract double GetArea(); }
+
+        //RectangleがShapeを継承し幅×高さを返す
+        class Q30Rectangle : Q029Shape
+        {
+            public double Width { get; set; }
+            public double Height { get; set; }
+            public override double GetArea() => Width * Height;
+        }
+
+        //IMovableインターフェースにMove()を定義
+        interface Q31Imovable
+        {
+            void Move();
+        }
+
+        class Car : Q31Imovable
+        {
+            public void Move() => Console.WriteLine("Car moves");
+        }
+
+        
     }
 }
