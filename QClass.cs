@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -217,74 +218,101 @@ namespace CsDrill
 
         }
 
-        // 修正: クラス宣言からパラメータリストを削除し、通常のクラス宣言にする
-        class Q023Person
+
+        public void Q026()
         {
-            //Personクラスを定義しName(string), Age(int)プロパティを持たせる
-            public string Name { get; set; }
-            public int Age { get; set; }
-
-            // 修正: コンストラクターを1つだけ定義
-            public Q023Person(string name, int age)
-            {
-                this.Name = name;
-                this.Age = age;
-            }
-
-            public void Q026()
-            {
-                //CalculatorのAdd(3,5)を呼び出して表示
-                var c = new Q025Calculator();
-                Console.WriteLine(c.Add(3, 5));
-            }
+            //CalculatorのAdd(3,5)を呼び出して表示
+            var c = new Q025Calculator();
+            Console.WriteLine(c.Add(3, 5));
         }
 
-        //CalculatorクラスにAdd(int,int)を定義（式形式）
-        class Q025Calculator { public int Add(int a, int b) => a + b; }
-
-        class Q027Animal
+        static void SayHello()
+        //staticでSayHelloメソッドを定義し"Hello!"を表示
         {
-            //AnimalクラスにSpeak()で"Animal sound"を表示
-            public virtual void Speak()
-            {
-                //virtualとは？
-                //virtualキーワードは、メソッドが派生クラスでオーバーライド可能であることを示します。
-                Console.WriteLine("Animal sound");
-            }
+            Console.WriteLine("Hello!");
         }
 
-        class Q028Dog : Q027Animal
-        {
-            //DogクラスはAnimalを継承し、Speak()をオーバーライドして"Woof"を表示
-            public override void Speak()
-            {
-                //overrideとは？
-                //overrideキーワードは、基底クラスのvirtualメソッドを派生クラスで再定義するために使用されます。
-                Console.WriteLine("Woof");
-            }
-        }
-        //抽象クラスShapeに抽象メソッドGetArea()
-        abstract class Q029Shape { public abstract double GetArea(); }
-
-        //RectangleがShapeを継承し幅×高さを返す
-        class Q30Rectangle : Q029Shape
-        {
-            public double Width { get; set; }
-            public double Height { get; set; }
-            public override double GetArea() => Width * Height;
-        }
-
-        //IMovableインターフェースにMove()を定義
-        interface Q31Imovable
-        {
-            void Move();
-        }
-
-        class Car : Q31Imovable
-        {
-            public void Move() => Console.WriteLine("Car moves");
-        }
-
-        
     }
+
+    // 修正: クラス宣言からパラメータリストを削除し、通常のクラス宣言にする
+    class Q023Person
+    {
+        //Personクラスを定義しName(string), Age(int)プロパティを持たせる
+        public string Name { get; set; }
+        private int age { get; set; }
+        //Q033 Ageに0未満が入ったら0に矯正するsetを実装
+        public int Age
+        {
+            get { return Age; }
+            set { Age = value < 0 ? 0 : value; }
+        }
+
+        // 修正: コンストラクターを1つだけ定義
+        public Q023Person(string name, int age)
+        {
+            this.Name = name;
+            this.Age = age;
+        }
+
+        //PersonのToString()を"Name:○○, Age:○○"にする
+        public override string ToString() => $"Name: {Name}, Age: {Age}";
+    }
+
+    //CalculatorクラスにAdd(int,int)を定義（式形式）
+    class Q025Calculator
+    {
+        public int Add(int a, int b) => a + b;
+        //Q31 オーバーロード: Add(double,double)も定義
+        public double Add(double a, double b) => a + b;
+    }
+
+    class Q027Animal
+    {
+        //AnimalクラスにSpeak()で"Animal sound"を表示
+        public virtual void Speak()
+        {
+            //virtualとは？
+            //virtualキーワードは、メソッドが派生クラスでオーバーライド可能であることを示します。
+            Console.WriteLine("Animal sound");
+        }
+    }
+
+    class Q028Dog : Q027Animal
+    {
+        //DogクラスはAnimalを継承し、Speak()をオーバーライドして"Woof"を表示
+        public override void Speak()
+        {
+            //overrideとは？
+            //overrideキーワードは、基底クラスのvirtualメソッドを派生クラスで再定義するために使用されます。
+            Console.WriteLine("Woof");
+        }
+    }
+    //抽象クラスShapeに抽象メソッドGetArea()
+    abstract class Q029Shape { public abstract double GetArea(); }
+
+    //RectangleがShapeを継承し幅×高さを返す
+    class Q30Rectangle : Q029Shape
+    {
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public override double GetArea() => Width * Height;
+    }
+
+    //IMovableインターフェースにMove()を定義
+    interface Q31Imovable
+    {
+        void Move();
+    }
+
+    class Car : Q31Imovable
+    {
+        public void Move() => Console.WriteLine("Car moves");
+    }
+
+    public class Animal
+    {
+        public virtual void Speak() => Console.WriteLine("Animal Sound");
+    }
+
 }
+
