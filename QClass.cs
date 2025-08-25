@@ -7,6 +7,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
+//Q034 System名前空間をusingでインポート
+//using System; 
+
 namespace CsDrill
 {
     internal class QClass
@@ -232,6 +235,18 @@ namespace CsDrill
             Console.WriteLine("Hello!");
         }
 
+        public void Q035()
+        {
+            //Q035 現在日時を表示
+            Console.WriteLine(DateTime.Now);
+        }
+
+        public void Q036()
+        {
+            //Q036 現在日時をyyyy-MM-dd形式で表示
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+        }
+
     }
 
     // 修正: クラス宣言からパラメータリストを削除し、通常のクラス宣言にする
@@ -309,10 +324,24 @@ namespace CsDrill
         public void Move() => Console.WriteLine("Car moves");
     }
 
-    public class Animal
+    public class Perason
     {
-        public virtual void Speak() => Console.WriteLine("Animal Sound");
+        private int age;
+        public int Age
+        {
+            get => age;
+            set => age = (value < 0) ? 0 : value;
+        }
+
     }
 
 }
 
+//Q033 名前空間MyApp.Modelsを定義
+namespace MyApp.Models
+{
+    class Perason()
+    {
+
+    }
+}
