@@ -1,0 +1,130 @@
+﻿いいね！じゃあテーマは**「静的メンバーとインスタンスメンバーの役割の違い」が一発で腑に落ちる、構造化されたミニ・コンソールアプリにするね。
+「現在時刻を取得して、好きなフォーマットで表示する」という1つの機能**に絞って、層（Domain / Service / Presentation）を分けてあります。
+Visual Studio で Console App 作って、Program.cs にそのまま貼ってOK。
+
+using System;
+
+namespace StructuredSample.TimeFeature
+{
+    // =========================
+    // Domain 層（純粋なモデル）
+    // =========================
+    // 「時刻」を表す値オブジェクト。ToStringをオーバーライドして意味のある表示に。
+    public sealed class CurrentTime
+    {
+        public DateTime Value { get; }
+
+        public CurrentTime(DateTime value) => Value = value;
+
+        // インスタンスの状態（Value）に依存するのでインスタンスメソッド
+        public string ToFormattedString(string format) => Value.ToString(format);
+
+        // ログやデバッグ表示用の既定表現（"yyyy-MM-dd HH:mm:ss"）
+        public override string ToString() => Value.ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
+    // =========================
+    // Service 層（取得や処理の手配）
+    // =========================
+    // 依存逆転（テスト容易化）のための時計インターフェース
+    public interface IClock
+    {
+        DateTime Now(); // 今の瞬間（インスタンス生成に使う）
+    }
+
+    // 実運用の時計：システム時刻を返す
+    public sealed class SystemClock : IClock
+    {
+        // DateTime.Nowは「クラスに属する」staticプロパティだが、ここでは
+        // インスタンスメソッド Now() に“包んで”使うことでテスト差替え可能にしている
+        public DateTime Now() => DateTime.Now;
+    }
+
+    // フォーマットの規約（単機能のための小さな「サービス」）
+    public static class TimeFormat
+    {
+        // static：共通の道具。状態を持たず、どのインスタンスにも依存しない。
+        public static string Default => "yyyy-MM-dd HH:mm:ss";
+        public static string Ymd => "yyyy-MM-dd";
+        public static string Hms => "HH:mm:ss";
+    }
+
+    // 時刻を取得し、指定フォーマット文字列に変換するユースケース
+    public sealed class TimePresenter
+    {
+        private readonly IClock _clock;
+
+        public TimePresenter(IClock clock) => _clock = clock;
+
+        // インスタンスメソッド：依存（_clock）を使うため
+        public CurrentTime GetCurrentTime() => new CurrentTime(_clock.Now());
+
+        public string GetFormatted(string format) => GetCurrentTime().ToFormattedString(format);
+    }
+
+    // =========================
+    // Presentation 層（入出力）
+    // =========================
+    internal static class Program
+    {
+        private static void Main(string[] args)
+        {
+            // 依存を組み立てる（本来はDIコンテナでもOK）
+            IClock clock = new SystemClock();
+            var presenter = new TimePresenter(clock);
+
+            // 機能デモ：1) 既定 2) 日付のみ 3) 時刻のみ
+            Console.WriteLine("=== Current Time Demo ===");
+            Console.WriteLine($"Default : {presenter.GetFormatted(TimeFormat.Default)}");
+            Console.WriteLine($"Date    : {presenter.GetFormatted(TimeFormat.Ymd)}");
+            Console.WriteLine($"Time    : {presenter.GetFormatted(TimeFormat.Hms)}");
+
+            // 値オブジェクトのToString（override）がそのまま読める表現を返す
+            var now = presenter.GetCurrentTime();
+            Console.WriteLine($"VO.ToString(): {now}"); // override適用
+
+            // 使い分けの解説を実行時にも表示
+            Console.WriteLine();
+            Console.WriteLine("【ポイント】");
+            Console.WriteLine("- DateTime.Now は static（クラスに属する工場）で、“今”という値を返す。");
+            Console.WriteLine("- ToString()/ToFormattedString() はインスタンスの状態（日時）に依存するからインスタンスメソッド。");
+            Console.WriteLine("- TimeFormat は状態を持たない共通の道具なので static。");
+        }
+    }
+}
+
+このプログラムで“1つの機能”をどう説明しているか
+
+機能の核：「現在時刻を取得して、任意のフォーマットで文字列にする」
+
+static の役割：
+
+DateTime.Now は“いま”という値をクラスから取り出す工場的な入り口。
+
+TimeFormat は状態を持たない共通の道具なので static。
+
+instance の役割：
+
+CurrentTime は“得られた時刻という実体（状態）”を保持。
+
+ToString() / ToFormattedString() はその実体をどう見せるかの処理なのでインスタンスメソッド。
+
+TimePresenter は依存（IClock）を持ち、振る舞いを組み合わせるためにインスタンス。
+
+こう使う（手順）
+
+Visual Studio → 新規 → Console App（.NET 8 など）
+
+生成された Program.cs を上のコードで置き換え
+
+実行（Ctrl+F5）
+
+表示された3パターンの時刻と、CurrentTime.ToString() の挙動を確認
+
+追加の練習（任意）
+
+MockClock を作って IClock を差し替え、任意の日時を固定して出力（テスト容易性の体感）。
+
+フォーマットに無効な文字列を渡したときの例外処理を追加（ユーザー向けメッセージ / ログ分離）。
+
+CurrentTime を record struct にしてイミュータブル値オブジェクトとして扱う練習。
