@@ -1,11 +1,13 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 //Q034 System名前空間をusingでインポート
 //using System; 
@@ -342,6 +344,59 @@ namespace MyApp.Models
 {
     class Perason()
     {
+        private int age;
+        public int Age
+        {
+            get => age;
+            set => age = (value < 0) ? 0 : value;
+
+        }
+
+
+
+        void Hello()
+        {
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd"));
+            //今日から7日後を取得
+            var future = DateTime.Now.AddDays(7);
+            var days = (future - DateTime.Now).TotalDays;
+
+
+        }
+
+        void StringFormat()
+        {
+            //"apple,banana,grape"を","で分割
+            string[] strings =  "apple,banana,grape".Split(',');
+
+            //textの"foo"を"bar"に置換
+            string text = "";
+            text = text.Replace("foo", "bar");
+
+            //textの先頭3文字を取得
+            var sub = text.Substring(0, 3);
+
+            //StringBuilderで"Hello"に" World"を追加
+            var stbl = new StringBuilder("Hello");
+            stbl.Append(" World");
+
+            //data.txtを全文読み込み
+            string content = File.ReadAllText("data.txt");
+
+            //output.txtに文字列を書き込み
+            File.WriteAllText("outpit.txt", "Hello, File!");
+        }
+
+        void Linq()
+        {
+            //numsから偶数のみ抽出（LINQ）
+            int[] nums = { 1, 2, 3, 4, 5, 6 };
+            var evens = nums.Where(n => n % 2 == 0);
+
+            //numsを昇順に並べる（LINQ)
+            var sorted = nums.OrderBy(n => n);
+        }
+
         //Change
     }
 }
