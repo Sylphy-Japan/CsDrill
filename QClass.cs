@@ -395,6 +395,15 @@ namespace MyApp.Models
 
             //numsを昇順に並べる（LINQ)
             var sorted = nums.OrderBy(n => n);
+
+            //numsの合計（LINQ）
+            var sum = nums.Sum();
+
+            //namesの要素数をカウント（LINQ）
+            var count = nums.Count();
+
+            //numsの最大値（LINQ）
+            var max = nums.Max();
         }
 
         //Change
