@@ -367,7 +367,7 @@ namespace MyApp.Models
         void StringFormat()
         {
             //"apple,banana,grape"を","で分割
-            string[] strings =  "apple,banana,grape".Split(',');
+            string[] strings = "apple,banana,grape".Split(',');
 
             //textの"foo"を"bar"に置換
             string text = "";
@@ -404,8 +404,25 @@ namespace MyApp.Models
 
             //numsの最大値（LINQ）
             var max = nums.Max();
+
+            //wordsに"apple"が含まれるか判定
+            List<string> words = new List<string> { "apple", "banana", "grape" };
+            bool exisit = words.Contains("apple");
         }
 
-        //Change
+
+        void DictionaryTest()
+        {
+            Dictionary<string, int> score = new Dictionary<string, int>();
+            //Dictionary<string,int> scoresに"Alice":90を追加
+            score["Alice"] = 90;
+
+            //Dictionary scoresをforeachで表示
+            foreach (var kv in score)
+            {
+                Console.WriteLine($"{kv.Key}: {kv.Value}");
+
+            }
+        }
     }
 }
