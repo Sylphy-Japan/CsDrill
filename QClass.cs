@@ -6,7 +6,9 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 //Q034 System名前空間をusingでインポート
@@ -385,6 +387,12 @@ namespace MyApp.Models
 
             //output.txtに文字列を書き込み
             File.WriteAllText("outpit.txt", "Hello, File!");
+
+            //using文でStreamReaderでdata.txtを読む
+            using (var r = new StreamReader("data.txt"))
+            {
+                Console.WriteLine(r.ReadToEnd());
+            }
         }
 
         void Linq()
@@ -423,6 +431,57 @@ namespace MyApp.Models
                 Console.WriteLine($"{kv.Key}: {kv.Value}");
 
             }
+
+            //numsの各要素を2倍に（LINQ）
+            int[] nums = { 1, 2, 3, 4, 5 };
+            var doubled = nums.Select(n => n * 2);
         }
+        void ramuda()
+        {
+            //xを2倍にするラムダdoubleIt
+            Func<int, int> doubleIt = x => x * 2;
+        }
+
+        void Nullable()
+        {
+            //int? nをnullで宣言
+            int? n = null;
+            //nがnullなら0を代入（??演算子）
+            int value = n ?? 0;
+        }
+
+        void RegularExpression()
+        {
+            var text = "abc123def456";
+            //正規表現で数字だけ抽出
+            var matches = Regex.Matches(text, @"\d+");
+        }
+
+        void GuidFunc()
+        {
+            //Guidを生成
+            //Guidを生成
+            var id = Guid.NewGuid();
+        }
+
+    }
+
+    class asynicAwait
+    {
+        public async Task WaitAsync()
+        {
+            //1秒待機する非同期メソッド
+            await Task.Delay(1000);
+        }
+    }
+
+    class EventExample()
+    {
+        //イベントハンドラーの定義
+        //EventHandler型のイベントOnClickを宣言
+        //public event EventHandler OnClick;
+        //OnClickイベントを発火
+        //OnClick?.Invoke(this, EventArgs.Empty);
+
     }
 }
