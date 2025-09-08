@@ -482,6 +482,12 @@ namespace MyApp.Models
         //public event EventHandler OnClick;
         //OnClickイベントを発火
         //OnClick?.Invoke(this, EventArgs.Empty);
+    }
 
+
+    class MyClass:IDisposable
+    { 
+        //IDisposable実装でDispose時に"Disposed"表示
+        public void Dispose()=>Console.WriteLine("Disposed"); 
     }
 }
