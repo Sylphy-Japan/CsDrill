@@ -11,6 +11,17 @@
             q.Q011();
             var p = new Q023Person("Eran",24);
 
+             
+            /*try-finallyでリソース解放保証
+            var res = new Resouce();
+            try{
+                res.use();
+            }finally{
+                res.Dispose();
+            }
+            */
+
+
 
         }
     }
