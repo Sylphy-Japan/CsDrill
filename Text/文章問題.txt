@@ -1,0 +1,5 @@
+﻿NuGetでパッケージ追加コマンド
+dotnet add package <PackageName>
+
+xUnitのパラメータ化テスト属性
+[Theory]\n[InlineData(1,2,3)]

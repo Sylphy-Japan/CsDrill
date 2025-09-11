@@ -487,16 +487,16 @@ namespace MyApp.Models
 
     class MyClass:IDisposable
     { 
-        string name = '';
+        //string name = '';
 
         //private setなプロパティの例
         public int Age { get; private set; }
 
         //式形式の読み取り専用プロパティName
-        public string Name => _name;
+        //public string Name => _name;
 
         //?? throwでnullチェックし例外を投げる
-        name = name ?? throw new ArgumentNullException(nameof(name));
+        //name = name ?? throw new ArgumentNullException(nameof(name));
   
         //IDisposable実装でDispose時に"Disposed"表示
         public void Dispose()=>Console.WriteLine("Disposed"); 
